@@ -1,6 +1,6 @@
-# Total-Life-Test-App
+# Client-Server-Test-App
 
-Test App for the Total Life interview
+Test App for the a job interview
 
 # Background
 
