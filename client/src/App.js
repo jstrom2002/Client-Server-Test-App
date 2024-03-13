@@ -46,7 +46,7 @@ export default function App() {
         }}
       >
         <Text fw={700} size={"xl"}>
-          Total Life take home test
+          Client-Server test app
         </Text>
         <Flex
           direction={"row"}
