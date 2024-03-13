@@ -22,12 +22,14 @@ let db = undefined;
 initSqlJs().then(function (SQL) {
   db = new SQL.Database();
   db.run(
-    "CREATE TABLE appointments (a int, b int, c int, d int, e int); \
-    CREATE TABLE clinician (a int, b char, c char, d int); \
-    CREATE TABLE patient (a int, b char, c char); \
-    INSERT INTO patient VALUES (0, 'Judy', 'Graves'); \
-    INSERT INTO patient VALUES (1, 'Arthur', 'Baldwin'); \
-    INSERT INTO patient VALUES (2, 'Michael', 'Masterson');"
+    "CREATE TABLE appointments (id int PRIMARY KEY, patientId int, clinicianId int, startTime int, endTime int); \
+    CREATE TABLE clinician (id int PRIMARY KEY, firstName char, lastName char, NPInumber int); \
+    CREATE TABLE patient (id int PRIMARY KEY, firstName char, lastName char); \
+    INSERT INTO patient VALUES (1, 'Judy', 'Graves'); \
+    INSERT INTO patient VALUES (2, 'Arthur', 'Baldwin'); \
+    INSERT INTO patient VALUES (3, 'Michael', 'Masterson'); \
+    INSERT INTO clinician VALUES (1, 'Thomas', 'McIndoe', 1558467555); \
+    INSERT INTO appointments VALUES (1, 1, 1, '2024-1-11 13:23:44', '2024-1-11 13:53:44');"
   );
 });
 
@@ -66,9 +68,10 @@ app.put("/api/appointments", (req, res) => {
 });
 app.delete("/api/appointments", (req, res) => {
   try {
-    res.json({
+    const bdy = req.body;
+    return res.json({
       message: db.exec(
-        `DELETE FROM appointments WHERE id == ${req.body["id"]};`
+        `DELETE FROM appointments WHERE id == ${bdy.message.id};`
       ),
     });
   } catch (e) {
@@ -80,8 +83,8 @@ app.delete("/api/appointments", (req, res) => {
 // Setup API endpoints for clinicians.
 app.get("/api/clinician", (req, res) => {
   try {
-    res.json({
-      message: db.exec("SELECT * FROM clinician"),
+    return res.json({
+      message: db.exec(`SELECT * FROM clinician`),
     });
   } catch (e) {
     res.status(500);
@@ -112,8 +115,9 @@ app.put("/api/clinician", (req, res) => {
 });
 app.delete("/api/clinician", (req, res) => {
   try {
+    const bdy = req.body;
     return res.json({
-      message: db.exec(`DELETE FROM clinician WHERE id == ${req.body["id"]};`),
+      message: db.exec(`DELETE FROM clinician WHERE id == ${bdy.message.id};`),
     });
   } catch (e) {
     res.status(500);
@@ -134,11 +138,16 @@ app.get("/api/patient", (req, res) => {
 });
 app.post("/api/patient", (req, res) => {
   try {
-    return res.json({
-      message: db.exec(
-        `UPDATE patient SET b = ${req.body.b}, c = ${req.body.c} WHERE id == ${req.body.a};`
-      ),
-    });
+    const bdy = req.body;
+    if (typeof bdy.a !== "number") {
+      res.status(400);
+      res.send({ message: "Invalid patient data." });
+    }
+    db.exec(
+      `INSERT INTO patient (firstName,lastName) VALUES ({'${bdy["b"]}', '${bdy["c"]}');`
+    );
+    res.status(200);
+    return res.json({ message: JSON.stringify(bdy) });
   } catch (e) {
     res.status(500);
     res.send(e);
@@ -152,7 +161,7 @@ app.put("/api/patient", (req, res) => {
       res.send({ message: "Invalid patient data." });
     }
     db.exec(
-      `INSERT INTO patient (a,b,c) VALUES (${bdy["a"]}, '${bdy["b"]}', '${bdy["c"]}');`
+      `UPDATE patient SET firstName = ${req.body.b}, firstName = ${req.body.c} WHERE id == ${req.body.a};`
     );
     res.status(200);
     return res.json({ message: JSON.stringify(bdy) });
@@ -163,8 +172,9 @@ app.put("/api/patient", (req, res) => {
 });
 app.delete("/api/patient", (req, res) => {
   try {
+    const bdy = req.body;
     return res.json({
-      message: db.exec(`DELETE FROM patient WHERE id == ${req.message["id"]};`),
+      message: db.exec(`DELETE FROM patient WHERE id == ${bdy.message.id};`),
     });
   } catch (e) {
     res.status(500);

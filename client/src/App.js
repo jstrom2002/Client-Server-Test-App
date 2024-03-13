@@ -1,9 +1,7 @@
 import React from "react";
 import "@mantine/core/styles.css";
 import { Button, Flex, Paper, Text, TextInput } from "@mantine/core";
-import AppointmentTable from "./components/AppointmentTable/index.js";
-import ClinicianTable from "./components/ClinicianTable/index.js";
-import PatientTable from "./components/PatientTable/index.js";
+import MainScreen from "./screens/MainScreen/index.js";
 
 export default function App() {
   const [NNPESstr, setNNPESstr] = React.useState("1558467555");
@@ -43,6 +41,8 @@ export default function App() {
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
+          placeContent: "center",
+          placeItems: "center",
         }}
       >
         <Text fw={700} size={"xl"}>
@@ -51,13 +51,13 @@ export default function App() {
         <Flex
           direction={"row"}
           style={{
-            placeContent: "center",
-            justifyContent: "center",
+            placeSelf: "center",
             margin: "2rem",
           }}
         >
           <TextInput
-            label={"Search for physician by NPI number"}
+            label={"Find Physician by NPI Number"}
+            plaeholder={"NPI Number"}
             value={NNPESstr}
             onChange={(e) => setNNPESstr(e.currentTarget.value)}
           />
@@ -68,9 +68,7 @@ export default function App() {
           direction={"column"}
           style={{ marginTop: "2rem", rowGap: "2rem" }}
         >
-          <PatientTable />
-          <ClinicianTable />
-          <AppointmentTable />
+          <MainScreen />
         </Flex>
       </Paper>
     </div>
