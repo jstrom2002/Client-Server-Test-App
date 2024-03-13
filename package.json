@@ -1,7 +1,7 @@
 {
-  "name": "total-life-test-app",
+  "name": "client-server-test-app",
   "version": "1.0.0",
-  "description": "Test App for the Total Life interview",
+  "description": "Client-Server Test App for job interview",
   "main": "index.js",
   "scripts": {
     "server": "nodemon --quiet server",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jstrom2002/Total-Life-Test-App.git"
+    "url": "git+https://github.com/jstrom2002/Client-Server-Test-App.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jstrom2002/Total-Life-Test-App/issues"
+    "url": "https://github.com/jstrom2002/Client-Server-Test-App/issues"
   },
-  "homepage": "https://github.com/jstrom2002/Total-Life-Test-App#readme",
+  "homepage": "https://github.com/jstrom2002/Client-Server-Test-App#readme",
   "dependencies": {
     "express": "^4.18.3",
     "react": "^18.2.0",
